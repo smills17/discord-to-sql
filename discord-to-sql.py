@@ -23,20 +23,22 @@ class DiscordClient(discord.Client):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
         print('------')
         all_channels = discord.utils.get(self.get_all_channels())
-        async for message in all_channels.history(limit=None):
-            self.cursor.execute("""
-            INSERT INTO message VALUES (?,?,?)
-            """,(message.id,message.author.id,message.content))
-            self.cursor.execute("""
-            INSERT OR IGNORE INTO user VALUES (?,?)
-            """,(message.author.id,message.author.name))
-
-            for react in message.reactions: 
+        for channel in self.get_all_channels():
+            async for message in channel.history(limit=None):
                 self.cursor.execute("""
-                INSERT OR IGNORE INTO react VALUES (?,?,?)
-                """,(message.id, str(react.emoji),react.count))
-            self.dbconn.commit()
-            self.message_counter += 1
+                INSERT INTO message VALUES (?,?,?)
+                """,(message.id,message.author.id,message.content))
+                self.cursor.execute("""
+                INSERT OR IGNORE INTO user VALUES (?,?)
+                """,(message.author.id,message.author.name))
+
+                for react in message.reactions: 
+                    self.cursor.execute("""
+                    INSERT OR IGNORE INTO react VALUES (?,?,?)
+                    """,(message.id, str(react.emoji),react.count))
+                self.dbconn.commit()
+                self.message_counter += 1
+            print(channel.name + " complete")
         print("scrape complete")
 
     async def check_status(self):
