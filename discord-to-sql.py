@@ -26,7 +26,7 @@ class DiscordClient(discord.Client):
         all_channels = discord.utils.get(self.get_all_channels())
         for guild in self.guilds:
             for channel in self.get_all_channels():
-                if not hasattr(channel, 'history') or not callable(channel, 'permissions_for'):
+                if not hasattr(channel, 'history') or not callable(channel.permissions_for):
                     continue
                 if not channel.permissions_for(guild.me).read_message_history:
                     continue
