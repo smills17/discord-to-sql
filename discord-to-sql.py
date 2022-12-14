@@ -24,10 +24,12 @@ class DiscordClient(discord.Client):
         print('------')
         all_channels = discord.utils.get(self.get_all_channels())
         for channel in self.get_all_channels():
+            if not hasattr(channel, 'history'):
+                continue
             async for message in channel.history(limit=None):
                 self.cursor.execute("""
-                INSERT INTO message VALUES (?,?,?)
-                """,(message.id,message.author.id,message.content))
+                INSERT INTO message VALUES (?,?,?,?)
+                """,(message.id,message.author.id,message.content,message.created_at))
                 self.cursor.execute("""
                 INSERT OR IGNORE INTO user VALUES (?,?)
                 """,(message.author.id,message.author.name))
