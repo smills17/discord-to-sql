@@ -14,7 +14,7 @@ By default sqlite3 creates a database in `discord.db` in the root directory, usi
 
 `python3 discord-to-sql.py`
 
-Every time it runs it will attempt to build an initial db at the `DB_FILENAME` location if it does not exist.
+Every time it runs it will attempt to build an initial db at the `DB_FILENAME` location specified in `.env` if it does not exist.
 
 After logging into the server(s) where its authed, it will download every message from every channel, filling the tables.
 
