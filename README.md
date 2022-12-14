@@ -10,7 +10,7 @@ Scrapes the entire post history of a discord server into a SQL database
 ### Local Database
 By default sqlite3 creates a database in `discord.db` in the root directory, using the file `discord.sql` as a template to set up the tables.
 ## Run
-`pip3 install discord dotenv-python`
+`pip3 install discord python-dotenv`
 
 `python3 discord-to-sql.py`
 
