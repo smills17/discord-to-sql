@@ -19,7 +19,7 @@ class DiscordClient(discord.Client):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
         print('------')
         all_channels = discord.utils.get(self.get_all_channels())
-        async for message in all_channels.history():
+        async for message in all_channels.history(limit=None):
             self.cursor.execute("""
             INSERT INTO message VALUES (?,?,?)
             """,(message.id,message.author.id,message.content))
